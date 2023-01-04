@@ -42,8 +42,8 @@ class GeneratorPage(tk.Frame):
         self.fill_color = ((0, 0, 0), '#000000')
         self.back_color = ((255, 255, 255), '#ffffff')
         self.other_color = ((0, 0, 255), '#0000ff')
-        self.path = "images\\QR Code Generator\\scan_me.png"
-        
+        self.path = "Select Image"
+
         # self.columnconfigure(0, weight=5)
         # self.columnconfigure(1, weight=1)
         # self.columnconfigure(1, weight=10)
@@ -51,7 +51,8 @@ class GeneratorPage(tk.Frame):
         self.label = tk.Label(self, text="QR Code Generator")
         self.label.grid(row=0, column=0, columnspan=2)
         
-        self.sample_qr = self.image_loader("images\\QR Code Generator\\default.png")
+        self.sample_qr = self.image_loader(qr_basic(qr_maker("QR Code Generator")))
+        # print(self.sample_qr)
         self.sample = tk.Label(self, image=self.sample_qr)
         self.sample.grid(row=1, column=0, columnspan=2)
         
@@ -96,23 +97,24 @@ class GeneratorPage(tk.Frame):
                             fill=self.fill_color[0] ,back=self.back_color[0], other=self.other_color[0],
                             colormask=self.colormask.get(), moduledrawer=self.moduledrawer.get(), 
                             embed=self.embed.get())
-        temp.save("temp\\temp_qr.png")
-        self.sample_qr = self.image_loader("temp\\temp_qr.png")
+        
+        self.sample_qr = self.image_loader(temp)
         self.sample["image"] = self.sample_qr
         self.sample_label["text"] = "Value: " + qr_value
     
-    def image_loader(self, path):
-        img = Image.open(path)
+    def image_loader(self, qr_img):
+        # img = Image(qr_img)
         size = 400
         
-        img_resized = img.resize((size, size), resample=0)
-        new_img = ImageTk.PhotoImage(img_resized)
-        return new_img
+        self.new_img = qr_img.resize((size, size), resample=0)
+        tk_img = ImageTk.PhotoImage(self.new_img)
+        return tk_img
     
     def saveqr(self):
         path = asksaveasfilename(initialfile = 'Untitled.png',
         defaultextension=".png",filetypes=[("Image file","*.png *.jpeg"),("All Files","*.*")])
-        shutil.copyfile("temp\\temp_qr.png", path)
+
+        self.new_img.save(path)
     
     def draw_menu(self):
         self.option_title = tk.Label(self.menu_frame, text="Options")

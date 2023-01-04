@@ -65,10 +65,11 @@ def qr_styler(qr, fill=(0,0,0), back=(255,255,255), other=(0,0,0), path="images\
 # To export use save_image from subfunctions
     
 def main():
-    qr = qr_maker("Try")
-    img = qr_basic(qr)
+    # qr = qr_maker("Try")
+    # img = qr_basic(qr)
     #img = qr_styler(qr)
-    img.save("temp.png")
+    # print(img.__dict__['_img'])
+    # img.save("temp.png")
     pass
 
 if __name__ == "__main__":
